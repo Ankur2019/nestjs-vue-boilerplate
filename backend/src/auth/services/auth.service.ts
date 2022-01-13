@@ -77,12 +77,13 @@ export class AuthService {
       name: user.name,
       email: user.email,
       password: hashedPassword,
+      email_verified: true,
     });
 
     delete res.password;
 
     // Send email.
-    this.sendEmailVerificationMail(res);
+    // this.sendEmailVerificationMail(res);
 
     return {
       user: res,

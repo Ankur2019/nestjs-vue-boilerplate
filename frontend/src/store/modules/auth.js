@@ -105,7 +105,7 @@ export default {
           {
             withCredentials: true,
           },
-        );
+        )
 
         if (res.status === 201) {
           window.location = `${process.env.VUE_APP_FRONTEND_URL}/dashboard`;
@@ -152,7 +152,7 @@ export default {
           window.location = `${process.env.VUE_APP_FRONTEND_URL}/dashboard`;
         }
       } catch (error) {
-        console.log(error.response)
+        console.error(error.response)
         if (error.response && error.response.data) {
           commit('SET_USER_ERROR_OR_LOGOUT', {
             ...error.response.data,

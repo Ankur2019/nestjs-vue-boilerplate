@@ -1,8 +1,8 @@
 import { PasswordService } from './services/password-auth.service';
 import { OAuthService } from './services/oauth.service';
 import { AuthSerializer } from './providers/serialization.provider';
-import { TwitterStrategy } from './strategies/twitter.strategy';
-import { TwitterOAuthController } from './controllers/twitter-oauth.controller';
+// import { TwitterStrategy } from './strategies/twitter.strategy';
+// import { TwitterOAuthController } from './controllers/twitter-oauth.controller';
 import { ForgotPasswordToken } from './entities/forgot-password-token.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailModule } from './../mail/mail.module';
@@ -14,8 +14,8 @@ import { AuthService } from './services/auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './controllers/auth.controller';
 import { ConfigModule } from '@nestjs/config';
-import { GoogleStrategy } from './strategies/google.strategy';
-import { GoogleOAuthController } from './controllers/google-oauth.controller';
+// import { GoogleStrategy } from './strategies/google.strategy';
+// import { GoogleOAuthController } from './controllers/google-oauth.controller';
 
 @Module({
   providers: [
@@ -23,8 +23,8 @@ import { GoogleOAuthController } from './controllers/google-oauth.controller';
     OAuthService,
     PasswordService,
     LocalStrategy,
-    GoogleStrategy,
-    TwitterStrategy,
+    // GoogleStrategy,
+    // TwitterStrategy,
     AuthSerializer,
   ],
   imports: [
@@ -40,7 +40,15 @@ import { GoogleOAuthController } from './controllers/google-oauth.controller';
     }),
     TypeOrmModule.forFeature([ForgotPasswordToken]),
   ],
-  exports: [AuthService, OAuthService, PasswordService],
-  controllers: [AuthController, GoogleOAuthController, TwitterOAuthController],
+  exports: [
+    AuthService, 
+    OAuthService, 
+    PasswordService
+  ],
+  controllers: [
+    AuthController, 
+    // GoogleOAuthController, 
+    // TwitterOAuthController
+  ],
 })
 export class AuthModule {}

@@ -144,7 +144,7 @@
           password: {
             type: 'password',
             name: 'passwprd',
-            label: 'Your password (min. 10 chars)',
+            label: 'Your password (min. 3 chars)',
             placeholder: '',
             value: '',
             error: '',
@@ -186,7 +186,7 @@
             password: this.formData.password.value,
           });
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       },
       /**
@@ -227,9 +227,9 @@
        * Validate the password field
        */
       validatePassword() {
-        if (this.formData.password.value.length < 10) {
+        if (this.formData.password.value.length < 3) {
           return (this.formData.password.error =
-            'Please provide a password with at least 10 characters.');
+            'Please provide a password with at least 3 characters.');
         }
         this.formData.password.error = '';
       },
