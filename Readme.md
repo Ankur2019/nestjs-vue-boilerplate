@@ -39,6 +39,9 @@ cd backend && cp .env.example .env
 
 Fill in the values as needed. If you plan to use the **dockerized** environment provided in this repo, there is **no need to change the database and email configuration**
 
+
+1. Install `nestjs` globally by running `yarn global add @nestjs/cli`
+2. Run `nest g resource ${module-name}` to dynamically create boilerplate for a module
 ### Frontend
 
 Navigate into the frontend directory and execute the following commands:

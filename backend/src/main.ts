@@ -6,10 +6,11 @@ import * as session from 'express-session';
 import { TypeormStore } from 'connect-typeorm/out';
 import { getRepository } from 'typeorm';
 import * as passport from 'passport';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
 
   // Get some config from the .env file.
