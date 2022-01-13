@@ -62,6 +62,10 @@ cp .env.example .env
 
 Afterwards, you can adjust the values as you wish. They will be used in the `docker-compose.yml`file for configuring your containers. However, you can also stick to the default values as they will get the job done :muscle: .
 
+Run
+`sudo docker-compose run --rm --service-ports api`
+to run the api with database
+
 > :warning: **Docker containers not suited for production**
 > The provided Docker configuration is not secure enough for a production environment. It is only supposed to be used during development.
 

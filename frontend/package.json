@@ -1,7 +1,10 @@
 {
-  "name": "idea-selector",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^16"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
@@ -25,7 +28,7 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^6.0.1",
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-tailwind": "~2.2.18"
   }

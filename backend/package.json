@@ -1,10 +1,10 @@
 {
-  "name": "test2",
+  "name": "backend",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "engines": {
+    "node": "^16"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
