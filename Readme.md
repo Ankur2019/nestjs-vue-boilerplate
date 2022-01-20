@@ -199,3 +199,7 @@ To then log a message, do:
 ```ts
 this.logger.error('My error message goes here');
 ```
+
+
+Links
+1. postgresql install in mac https://gist.github.com/phortuin/2fe698b6c741fd84357cec84219c6667
