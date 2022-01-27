@@ -71,3 +71,25 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## Postgres install & database creation
+
+`apt show postgresql`
+
+`sudo apt install postgresql postgresql-contrib`
+
+`sudo su - postgres`
+
+`psql`
+
+`postgres=# \conninfo`
+
+`postgres=# create database vuenestboilerplate;`
+
+`postgres=# create user postgres with encrypted password '12345';`
+
+`postgres=# grant all privileges on database vuenestboilerplate to postgres;`
+
+`postgres=# \list`
+
+`postgres=# ALTER DATABASE vuenestboilerplate Owner TO postgres;`

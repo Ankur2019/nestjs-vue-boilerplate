@@ -203,3 +203,9 @@ this.logger.error('My error message goes here');
 
 Links
 1. postgresql install in mac https://gist.github.com/phortuin/2fe698b6c741fd84357cec84219c6667
+2. To run `pgAdmin` https://stackoverflow.com/questions/15301826/psql-fatal-role-postgres-does-not-exist
+
+
+Monorepo:
+1. https://github.com/emjimadhu/monorepify
+2. https://github.com/troncali/nest-vue

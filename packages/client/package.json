@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -7,7 +7,9 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "@tailwindcss/postcss7-compat": "^2.2.17",

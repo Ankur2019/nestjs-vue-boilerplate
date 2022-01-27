@@ -1,0 +1,31 @@
+{
+  "name": "nestjs-vue-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "^16"
+  },
+  "workspaces": [
+    "packages/client",
+    "packages/server"
+  ],
+  "scripts": {
+    "client": "yarn workspace client",
+    "server": "yarn workspace server",
+
+    "serve": "concurrently \"yarn client serve\" \"yarn server start:dev\" -n client,server -c cyan,magenta --handle-input --default-input-target server",
+    
+    "start": "yarn server start",
+    "build": "yarn client build && yarn server build",
+
+    "test:client": "yarn client test:unit",
+    "test:server": "yarn server test",
+    "test": "yarn test:client && yarn test:server",
+
+    "lint:client": "yarn client lint",
+    "lint:server": "yarn server lint"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}
