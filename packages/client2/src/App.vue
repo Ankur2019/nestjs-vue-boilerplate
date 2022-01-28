@@ -1,9 +1,17 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <VApp>
+    <div id="nav">
+      <RouterLink to="/">
+        Home
+      </RouterLink> |
+      <RouterLink to="/about">
+        About
+      </RouterLink>
+    </div>
+    <VMain>
+      <RouterView />
+    </VMain>
+  </VApp>
 </template>
 
 <style lang="scss">

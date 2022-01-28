@@ -16,8 +16,52 @@ module.exports = {
   },
 
   rules: {
-    'no-console': 'off',
-    'no-debugger': 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-use-before-define': 'off',
+    'no-plusplus': 'off',
+    'max-len': ['error', {
+      code: 120,
+      ignoreUrls: true,
+      ignoreRegExpLiterals: true,
+    }],
+    'no-unused-expressions': 'off',
+    'function-paren-newline': ['warn', 'multiline-arguments'],
+    '@typescript-eslint/no-unused-expressions': 'error',
+    '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/func-call-spacing': ['error'],
+    'func-call-spacing': 'off',
+    'max-lines-per-function': [
+      'warn',
+      {
+        max: 100,
+        skipBlankLines: true,
+        skipComments: true,
+      },
+    ],
+    'import/order': ['error', {
+      pathGroups: [
+        {
+          pattern: '@/**',
+          group: 'internal',
+        },
+      ],
+      pathGroupsExcludedImportTypes: ['builtin'],
+      alphabetize: { order: 'asc', caseInsensitive: true },
+    }],
+    'no-spaced-func': 'off',
+    'no-underscore-dangle': 'off',
+    'no-restricted-syntax': 'off',
+    'no-continue': 'off',
+    'guard-for-in': 'off',
+    'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+      registeredComponentsOnly: false,
+    }],
+    'vue/attribute-hyphenation': ['warn', 'never'],
+    'vue/v-slot-style': ['error', {
+      atComponent: 'shorthand',
+    }],
   },
 
   overrides: [
@@ -28,6 +72,13 @@ module.exports = {
       ],
       env: {
         jest: true,
+      },
+    },
+
+    {
+      files: ['**/services/*', '**/services/**/*'],
+      rules: {
+        '@typescript-eslint/member-ordering': 'error',
       },
     },
   ],
