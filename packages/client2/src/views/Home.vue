@@ -1,21 +1,27 @@
 <template>
-  <div class="home">
-    <img
-      alt="Vue logo"
-      src="../assets/logo.png"
-    >
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div>
+    <div class="mb-4">Hello world</div>
+    <div>
+      {{
+        $store.state.auth.user.name
+          ? $store.state.auth.user.name
+          : 'Not logged in'
+      }}
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
-export default defineComponent({
-  name: 'Home',
-  components: {
-    HelloWorld,
-  },
-});
+<script>
+  import PrimaryButton from './../components/Buttons/PrimaryButton.vue';
+  export default {
+    components: {
+      name: 'Home',
+      PrimaryButton,
+    },
+    methods: {
+      googleLogin() {
+        window.location = 'http://localhost:3000/auth/google';
+      },
+    },
+  };
 </script>

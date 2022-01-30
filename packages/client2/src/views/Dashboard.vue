@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <h1>{{ headline }}</h1>
+  <auth-layout :headline="headline">
     <div>Hi there, {{ $store.state.auth.user.name }}</div>
 
     <div>
       Thanks for using the NestJS Vue Boilerplate. I really hope you enjoy it so
       far!
     </div>
-  </div>
+  </auth-layout>
 </template>
+<script>
+  import AuthLayout from '../Layouts/AuthLayout.vue';
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'Dashboard',
-  data() {
-    return {
-      headline: 'Dashboard',
-    };
-  },
-});
+  export default {
+    data() {
+      return {
+        headline: 'Dashboard',
+      };
+    },
+    components: { AuthLayout },
+  };
 </script>
