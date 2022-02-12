@@ -1,118 +1,239 @@
 <template>
-  <div>
-    <h1>
-      Login
-    </h1>
-    <div class="fill-height fill-width d-flex justify-center">
-      <div>
-        <span class="mb-4" />
+  <VForm
+    id="login-form"
+    @submit.prevent="submit"
+  >
+    <VRow
+      justify="center"
+      align="center"
+      class="mb-10 mx-0"
+    >
+      <slot />
 
-        <span class="mb-6">Don't have an account yet?
-          <RouterLink to="/register">
-            <span>Register</span>
-          </RouterLink></span>
+      <VSlideYTransition>
+        <VCol
+          v-if="enabled"
+          cols="9"
+          class="px-0"
+        >
+          <VTextField
+            :label="errors.get('username') || serverError || 'Email Address'"
+            v-model="username"
+            filled
+            flat
+            hideDetails
+            color="secondaryB"
+            height="48px"
+            autofocus
+            @blur="onUsernameUpdate"
+            :error="!!(errors.get('username') || serverError)"
+          />
+
+          <VTextField
+            :label="errors.get('password') || 'Password'"
+            v-model="password"
+            filled
+            flat
+            hideDetails
+            color="secondaryB"
+            height="48px"
+            :appendIcon="hidePassword ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append="togglePasswordField"
+            :type="hidePassword ? 'password' : 'text'"
+            @blur="onPasswordUpdate"
+            :error="!!errors.get('password')"
+          />
+
+          <VRow class="mx-0">
+            <VCol
+              cols="12"
+              class="text-right pt-0 pb-0"
+            >
+              <RouterLink
+                class="accent--text forget"
+                v-text="'Forget Password?'"
+                to="/auth/reset"
+              />
+            </VCol>
+          </VRow>
+
+          <VBtn
+            type="submit"
+            large
+            block
+            depressed
+            color="primary"
+            form="login-form"
+            height="48px"
+            class="mt-4"
+          >
+            <span class="title">
+              Log in
+            </span>
+          </VBtn>
+        </VCol>
+      </VSlideYTransition>
+
+      <div
+        class="mt-7 mb-6"
+        style="max-width: 100%;flex: 0 0 100%"
+      >
         <VDivider />
-
-        <!-- Forgot password link -->
-        <span class="fill-width d-flex justify-space-between mt-3">
-          <RouterLink to="/forgotpassword">
-            <span>Forgot your password?</span>
-          </RouterLink>
-        </span>
       </div>
-    </div>
-  </div>
+
+      <div class="text-center title">
+        New to {{ appName }}?
+        <a
+          role="button"
+          @click="goToSignUp"
+        >
+          Sign Up
+        </a>
+      </div>
+    </VRow>
+  </VForm>
 </template>
 
 <script lang="ts">
-
+import axios, { AxiosError } from 'axios';
+import { User } from 'types';
 import { defineComponent } from 'vue';
+import { required } from 'vuelidate/lib/validators';
+import { CONFIG } from '@/helpers';
+
+type Fields = 'username' | 'password';
+type Errors = Map<Fields, string>;
 
 export default defineComponent({
+  name: 'Login',
+  props: {
+    enabled: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
-      formData: {
-        email: {
-          type: 'text',
-          name: 'email',
-          label: 'Your email',
-          placeholder: 'bruce@wayne-enterprise.com',
-          value: '',
-          error: '',
-          isRequired: true,
-        },
-        password: {
-          type: 'password',
-          name: 'passwprd',
-          label: 'Your password (min. 3 chars)',
-          placeholder: '',
-          value: '',
-          error: '',
-          isRequired: true,
-        },
-      },
+      appName: CONFIG.appName,
+      hidePassword: true,
+      username: '',
+      password: '',
+      serverError: '',
     };
   },
-  methods: {
-    /**
-       * Log in via Google.
-       */
-    loginWithGoogle() {
-      window.location.href = `${process.env.VUE_APP_API_URL}/auth/google`;
-    },
-    /**
-       * Log in via Twitter.
-       */
-    loginWithTwitter() {
-      window.location.href = `${process.env.VUE_APP_API_URL}/auth/twitter`;
-    },
-    /**
-       * Log in via email and password.
-       */
-    async localLogin() {
-      this._validateInputs();
-      if (this.formData.email.error || this.formData.password.error) {
-        return;
+  validations: {
+    username: { required },
+    password: { required },
+  },
+  computed: {
+    errors(): Errors {
+      const errors = new Map<Fields, string>();
+
+      const { username, password } = this.$v;
+      if (username.$dirty && !username.required) {
+        errors.set('username', 'Email is required');
       }
-      // Trigger action from auth store.
-      this.$store.dispatch('login', {
-        email: this.formData.email.value,
-        password: this.formData.password.value,
+      if (password.$dirty && !password.required) {
+        errors.set('password', 'Password is required');
+      }
+
+      return errors;
+    },
+  },
+
+  methods: {
+    togglePasswordField() {
+      this.hidePassword = !this.hidePassword;
+    },
+    async goToSignUp() {
+      await this.$router.push({
+        path: '/auth/signup',
+        query: this.$route.query,
       });
     },
-    /**
-       * Validate the form input fields.
-       */
-    _validateInputs() {
-      this.validateEmail();
-      this.validatePassword();
+    onUsernameUpdate() {
+      if (this.username) {
+        this.$v.username.$touch();
+        this.serverError = '';
+      }
     },
+    onPasswordUpdate() {
+      this.$v.username.$touch();
+      this.$v.password.$touch();
+    },
+    async submit() {
+      this.$v.$touch();
+      if (this.$v.$anyError) {
+        return;
+      }
 
-    /**
-       * Validate the email field
-       */
-    validateEmail() {
-      const isEmail = String(this.formData.email.value)
-        .toLowerCase()
-        .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        );
-      if (!isEmail) {
-        this.formData.email.error = 'Please enter a valid email address.';
-        return;
+      try {
+        const loginResponse = await axios.post<{ user: User; token: string }>('/auth/login', {
+          username: this.username,
+          password: this.password,
+        });
+        const { user, token } = loginResponse.data;
+
+        this.$emit('auth', { user, token });
+      } catch (e) {
+        if (e.isAxiosError) {
+          this.serverError = (e as AxiosError).response?.data.message;
+        } else {
+          console.error(e);
+        }
       }
-      this.formData.email.error = '';
-    },
-    /**
-       * Validate the password field
-       */
-    validatePassword() {
-      if (this.formData.password.value.length < 3) {
-        this.formData.password.error = 'Please provide a password with at least 3 characters.';
-        return;
-      }
-      this.formData.password.error = '';
     },
   },
 });
 </script>
+
+<style scoped lang="scss">
+
+.v-divider {
+  border: 1px solid #DADCE0;
+}
+
+.v-input::v-deep {
+  &.error--text .v-input__slot {
+    border: 1px solid var(--v-lighterOrange-base);
+  }
+
+  .v-label {
+    color: var(--v-secondaryB-base);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    top: 12px;
+
+    &.error--text {
+      color: var(--v-primary-base);
+    }
+  }
+
+  .v-input__slot {
+    min-height: 48px !important;
+  }
+
+  .v-input__append-inner {
+    margin-top: 10px;
+
+    .v-icon.error--text {
+      color: rgba(0, 0, 0, 0.54) !important;
+    }
+  }
+}
+
+.forget {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+
+  &::v-deep .v-label {
+    color: var(--v-primaryB-base);
+    top: -2px;
+  }
+}
+
+</style>

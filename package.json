@@ -7,23 +7,35 @@
   },
   "workspaces": [
     "packages/client",
-    "packages/server"
+    "packages/server",
+    "packages/dto",
+    "packages/utilities",
+    "packages/types"
   ],
   "scripts": {
     "client": "yarn workspace client",
     "server": "yarn workspace server",
+    "dto": "yarn workspace dto", 
+    "utilities": "yarn workspace utilities",
+    "types": "yarn workspace types",
 
-    "serve": "concurrently \"yarn client serve\" \"yarn server start:dev\" -n client,server -c cyan,magenta --handle-input --default-input-target server",
+    
+    "watch:others": "concurrently \"yarn dto watch\" \"yarn utilities watch\" \"yarn types watch\" -n dto,utilities,types -c red,green,yellow",
+    "serve": "concurrently \"yarn client serve\" \"yarn server start:dev\" \"yarn watch:others\" -n client,server,\"watch:others\" -c cyan,magenta,blue --handle-input --default-input-target server",
     
     "start": "yarn server start",
-    "build": "yarn client build && yarn server build",
+    "build:others": "yarn types build && yarn utilities build && yarn dto build",
+    "build": "yarn build:others && yarn client build && yarn server build",
 
     "test:client": "yarn client test:unit",
     "test:server": "yarn server test",
     "test": "yarn test:client && yarn test:server",
 
     "lint:client": "yarn client lint",
-    "lint:server": "yarn server lint"
+    "lint:server": "yarn server lint",
+    "lint:dto": "yarn dto lint",
+    "lint:utilities": "yarn utilities lint",
+    "lint:types": "yarn types lint"
   },
   "devDependencies": {
     "concurrently": "^5.3.0"
