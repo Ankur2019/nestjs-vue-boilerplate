@@ -20,7 +20,7 @@
             <VTooltip top>
               <template #activator="{ on }">
                 <VBtn
-                  icon
+                  icon=""
                   color="green darken-1"
                   v-on="on"
                   @click="exportCsv"
@@ -75,11 +75,11 @@
                 </div>
               </td>
             </template>
-            {{ /* eslint-disable vue/valid-v-slot */ }}
-            <template #item.registrationDate="{value}">
+
+            <template #[`item.registrationDate`]="{ value }">
               {{ formatDate(value) }}
             </template>
-            <template #item.socialLogins="{value}">
+            <template #[`item.socialLogins`]="{ value }">
               <img
                 v-if="value.includes('Google')"
                 :src="require('@/assets/socials/google-logo.png')"
