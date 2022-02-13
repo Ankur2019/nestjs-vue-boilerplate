@@ -125,9 +125,10 @@
 </template>
 
 <script lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import axios from 'axios';
 import { defineComponent } from 'vue';
-import { required, email } from 'vuelidate/lib/validators';
 import {
   getSearchParamsFromUrl,
   handleAxiosError,
@@ -156,29 +157,34 @@ export default defineComponent({
       password: '',
     };
   },
-  validations: {
-    firstName: { required },
-    lastName: { required },
-    username: {
-      required,
-      email,
-      async unique(value) {
-        if (!value) {
-          return true;
-        }
-        try {
-          await axios.get(`/auth/username/${value}`);
-          return false;
-        } catch (e) {
-          if (e.isAxiosError) {
-            // if no user is found with this name, it's good to go
-            return e.response.status === 404;
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations() {
+    return {
+      firstName: { required },
+      lastName: { required },
+      username: {
+        required,
+        email,
+        async unique(value: string) {
+          if (!value) {
+            return true;
           }
-          return true;
-        }
+          try {
+            await axios.get(`/auth/username/${value}`);
+            return false;
+          } catch (e) {
+            if (e.isAxiosError) {
+            // if no user is found with this name, it's good to go
+              return e.response.status === 404;
+            }
+            return true;
+          }
+        },
       },
-    },
-    password: { required },
+      password: { required },
+    };
   },
   computed: {
     errors(): Errors {

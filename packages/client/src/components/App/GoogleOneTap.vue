@@ -7,7 +7,6 @@ import {
   ComputedGetter,
   VNode,
 } from 'vue';
-import { mapState } from 'vuex';
 import Bus, { NOTIFICATION } from '@/bus';
 import {
   redirectUserAfterLogin,
@@ -49,7 +48,12 @@ export default defineComponent<ComponentPropsOptions, unknown, unknown, Computed
     return h(undefined);
   },
   computed: {
-    ...mapState(['user', 'token']),
+    user() {
+      return this.$store.state.user;
+    },
+    token() {
+      return this.$store.state.token;
+    },
   },
   watch: {
     token() {

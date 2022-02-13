@@ -63,7 +63,6 @@ import {
   ComponentPropsOptions,
   ComputedGetter,
 } from 'vue';
-import { mapState } from 'vuex';
 import ProfileImage from '@/components/Helper/ProfileImage.vue';
 import HeaderTextLinkButton, {
   HeaderTextLink,
@@ -98,7 +97,9 @@ export default defineComponent<ComponentPropsOptions<Props>, unknown, unknown, C
     },
   },
   computed: {
-    ...mapState(['user']),
+    user() {
+      return this.$store.state.user;
+    },
     name() {
       if (!this.user) {
         return '';

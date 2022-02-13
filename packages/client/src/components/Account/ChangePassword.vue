@@ -66,9 +66,10 @@
 </template>
 
 <script lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import axios, { AxiosError } from 'axios';
 import { defineComponent } from 'vue';
-import { required } from 'vuelidate/lib/validators';
 import { handleAxiosError } from '@/helpers';
 
 type Fields = 'currentPassword' | 'newPassword';
@@ -92,9 +93,14 @@ export default defineComponent({
       isUpdating: false,
     };
   },
-  validations: {
-    currentPassword: { required },
-    newPassword: { required },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations() {
+    return {
+      currentPassword: { required },
+      newPassword: { required },
+    };
   },
   watch: {
     resetField(newVal) {

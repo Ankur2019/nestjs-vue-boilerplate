@@ -78,7 +78,6 @@ import {
   ComponentPropsOptions,
   ComputedGetter,
 } from 'vue';
-import { mapState, mapGetters } from 'vuex';
 import { clientBaseUrl } from '@/helpers';
 import {
   Navigation,
@@ -101,8 +100,15 @@ interface Methods extends MethodOptions {
 export default defineComponent<ComponentPropsOptions, unknown, unknown, Computed, Methods>({
   name: 'NavigationMobileMenu',
   computed: {
-    ...mapState(['user', 'navigations']),
-    ...mapGetters(['availableNavigations']),
+    user() {
+      return this.$store.state.user;
+    },
+    navigations() {
+      return this.$store.state.navigations;
+    },
+    availableNavigations() {
+      return this.$store.getters.availableNavigations;
+    },
   },
   methods: {
     onNavigationChildClick(child: NavigationChild) {

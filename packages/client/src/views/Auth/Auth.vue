@@ -114,7 +114,6 @@ import {
   ComponentPropsOptions,
   ComputedGetter,
 } from 'vue';
-import { mapState } from 'vuex';
 import Bus, { NOTIFICATION } from '@/bus';
 import SiteLogo from '@/components/NavBar/SiteLogo.vue';
 import {
@@ -165,7 +164,9 @@ export default defineComponent<ComponentPropsOptions, unknown, Data, Computed, M
     };
   },
   computed: {
-    ...mapState(['user']),
+    user() {
+      return this.$store.state.user;
+    },
     redirectUrl() {
       return (this.$route.query.redirect || '') as string;
     },

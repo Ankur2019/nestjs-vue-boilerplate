@@ -95,10 +95,11 @@
 </template>
 
 <script lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import axios, { AxiosError } from 'axios';
 import { User } from 'types';
 import { defineComponent } from 'vue';
-import { required } from 'vuelidate/lib/validators';
 import { CONFIG } from '@/helpers';
 
 type Fields = 'username' | 'password';
@@ -121,9 +122,14 @@ export default defineComponent({
       serverError: '',
     };
   },
-  validations: {
-    username: { required },
-    password: { required },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations() {
+    return {
+      username: { required },
+      password: { required },
+    };
   },
   computed: {
     errors(): Errors {

@@ -121,7 +121,7 @@ import {
   ComputedGetter,
 } from 'vue';
 import { download } from '@/helpers';
-import { User } from '@/type';
+import { User, SocialLogin } from '@/type';
 
 dayjs.extend(localizedFormat);
 
@@ -148,9 +148,14 @@ type ReportKeys =
   | 'experienceLevels'
   | 'preferredStyles';
 
+interface Header {
+  text: string;
+  value: ReportKeys;
+}
+
 interface Data {
   users: User[];
-  headers: { text: string; value: ReportKeys }[];
+  headers: Header[];
   isLoading: boolean;
   search: string;
 }
@@ -185,7 +190,7 @@ export default defineComponent<ComponentPropsOptions, unknown, Data, Computed, M
   },
   computed: {
     report(): ReportElement[] {
-      return this.users.map((user): ReportElement => {
+      return this.users.map((user: User): ReportElement => {
         const {
           createdAt,
           _id: userId,
@@ -202,7 +207,7 @@ export default defineComponent<ComponentPropsOptions, unknown, Data, Computed, M
 
         return {
           registrationDate: createdAt || 'N/A',
-          socialLogins: (socialLogins?.map((login) => login.name) || []).join(),
+          socialLogins: (socialLogins?.map((login: SocialLogin) => login.name) || []).join(),
           referralCode,
           referredCode: referredCode || 'N/A',
           userId,
@@ -246,9 +251,9 @@ export default defineComponent<ComponentPropsOptions, unknown, Data, Computed, M
       return this.report;
     },
     exportCsv() {
-      const fields = this.headers.map((header) => header.text);
-      const csvData = this.report.map((el) => {
-        const keyValuePairs = this.headers.map((header) => [header.text, el[header.value as ReportKeys]]);
+      const fields = this.headers.map((header: Header) => header.text);
+      const csvData = this.report.map((el: ReportElement) => {
+        const keyValuePairs = this.headers.map((header: Header) => [header.text, el[header.value as ReportKeys]]);
         return Object.fromEntries(keyValuePairs);
       });
       const csv = parse(csvData, { fields });

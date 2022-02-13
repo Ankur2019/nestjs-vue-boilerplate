@@ -61,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import HeaderTextLinkButton from '@/components/NavBar/HeaderTextLinkButton.vue';
 import { clientBaseUrl } from '@/helpers';
 import {

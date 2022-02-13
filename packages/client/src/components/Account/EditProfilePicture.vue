@@ -153,9 +153,10 @@
 </template>
 
 <script lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import axios, { AxiosRequestConfig } from 'axios';
 import { defineComponent } from 'vue';
-import { required } from 'vuelidate/lib/validators';
 import { mapState, mapGetters } from 'vuex';
 import { handleAxiosError } from '@/helpers';
 import { User } from '@/type';
@@ -176,9 +177,14 @@ export default defineComponent({
       deleteProfileImage: false,
     };
   },
-  validations: {
-    firstName: { required },
-    lastName: { required },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations() {
+    return {
+      firstName: { required },
+      lastName: { required },
+    };
   },
   watch: {
     profileImageFile() {
@@ -219,7 +225,7 @@ export default defineComponent({
   },
   methods: {
     onPickProfileImage() {
-      const profileImageInput = this.$refs.profileImageInput as Vue;
+      const { profileImageInput } = this.$refs;
       const input = profileImageInput.$refs.input as HTMLElement;
       input.click();
     },

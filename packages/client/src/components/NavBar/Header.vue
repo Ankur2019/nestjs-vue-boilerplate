@@ -102,7 +102,6 @@ import {
   ComponentPropsOptions,
   ComputedGetter,
 } from 'vue';
-import { mapState, mapGetters } from 'vuex';
 import MemberMenu from '@/components/NavBar/MemberMenu.vue';
 import MemberMobileMenu from '@/components/NavBar/MemberMobileMenu.vue';
 import NavigationMenu from '@/components/NavBar/NavigationMenu.vue';
@@ -125,8 +124,15 @@ export default defineComponent<ComponentPropsOptions, unknown, unknown, Computed
     NavigationMobileMenu,
   },
   computed: {
-    ...mapState(['user', 'navigations']),
-    ...mapGetters(['availableNavigations']),
+    user() {
+      return this.$store.state.user;
+    },
+    navigations() {
+      return this.$store.state.navigations;
+    },
+    availableNavigations() {
+      return this.$store.getters.availableNavigations;
+    },
     isMobile() {
       return this.$vuetify.breakpoint.mobile;
     },

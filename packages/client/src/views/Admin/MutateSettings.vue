@@ -49,9 +49,10 @@
 </template>
 
 <script lang="ts">
+import useVuelidate from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import axios from 'axios';
 import { defineComponent } from 'vue';
-import { required } from 'vuelidate/lib/validators';
 import Bus, { NOTIFICATION } from '@/bus';
 import ConfirmationDialog from '@/components/Helper/ConfirmationDialog.vue';
 import { handleAxiosError, CONFIG } from '@/helpers';
@@ -73,8 +74,13 @@ export default defineComponent({
       siteIsActive: true,
     };
   },
-  validations: {
-    siteIsActive: { required },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations() {
+    return {
+      siteIsActive: { required },
+    };
   },
   computed: {
     errors(): Errors {

@@ -2,7 +2,7 @@
   <VAvatar
     :size="size"
     :class="{bordered: bordered || !profileImage}"
-    :style="{ '--color': $vuetify.theme.themes.light[color] }"
+    :style="{ '--color': themeColor }"
   >
     <VImg
       v-if="profileImage"
@@ -18,7 +18,7 @@
   </VAvatar>
 </template>
 <script lang="ts">
-import Vue, { PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import SITE_LOGO from '@/assets/site-assets/logo-with-name.png';
 import { abbreviateName, profileImageSrc } from '@/helpers';
 import { User } from '@/type';
@@ -55,6 +55,9 @@ export default defineComponent({
   computed: {
     abbreviatedName(): string {
       return abbreviateName(this.user);
+    },
+    themeColor(): string {
+      return this.$vuetify.theme.themes.light[this.color];
     },
   },
   watch: {

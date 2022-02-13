@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import Vue, { VNode } from 'vue';
+import { defineComponent, VNode } from 'vue';
 
 let handler: (e: Event) => void;
 export default defineComponent({
