@@ -59,7 +59,6 @@ module.exports = {
       registeredComponentsOnly: false,
     }],
     'vue/attribute-hyphenation': ['warn', 'never'],
-    // 'vue/valid-v-slot': 'off'
     'vue/v-slot-style': ['warn', {
       atComponent: 'shorthand',
     }],
