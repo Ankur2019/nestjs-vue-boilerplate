@@ -1,0 +1,15 @@
+{
+  "redisPort": 6379,
+  "suppressApiLogging":1,
+  "suppressQueue": 1,
+  "dbServer": "localhost:27017",
+  "jwtSecret": "site-secret",
+  
+  "mailgunApiKey": "mailgun-api-key",
+  "mailgunDomain": "domain.mailgun.org",
+  "mailingList": "dev@site.com",
+  "resetPasswordDuration": "1h",
+
+  "googleAuth2ClientSecret": "AUTH0_CLIENT_SECRET",
+  "facebookAppSecret": "FACEBOOK_APP_SECRET"
+}

@@ -2,10 +2,8 @@ export type Info = {
     name: string;
   };
 
-const INFOS: Info[] = [
+export const INFOS: Info[] = [
   {
     name: 'Bangladesh',
   },
 ];
-
-export default INFOS;

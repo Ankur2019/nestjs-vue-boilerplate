@@ -11,10 +11,7 @@ dotEnvConfig({
   ),
 });
 
-export {
-  default as INFOS,
-  Info,
-} from './test';
+export { INFOS, Info } from './test';
 
 interface APPInfo {
   IS_DEVELOPMENT: boolean;
