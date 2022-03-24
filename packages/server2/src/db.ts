@@ -13,7 +13,7 @@ function genDbHost(dbName: string): string {
 }
 
 async function connectDatabase(): Promise<void> {
-  const dbHost = genDbHost('typescript-boilerplate');
+  const dbHost = genDbHost('nestjs-vue-boilerplate');
   try {
     await mongoose.connect(dbHost, {
       connectTimeoutMS: 60 * 1000,
