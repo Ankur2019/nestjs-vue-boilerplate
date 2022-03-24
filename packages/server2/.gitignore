@@ -7,3 +7,4 @@ mongodb
 public/*
 test-report/
 logs/*
+node_modules
